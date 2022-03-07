@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ .Chart.Name }}-ingress"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: "/app_{{ .Chart.Name }}"
+        pathType: Prefix
+        backend:
+          service:
+            name: "{{ .Chart.Name }}-service"
+            port:
+              number: 80              

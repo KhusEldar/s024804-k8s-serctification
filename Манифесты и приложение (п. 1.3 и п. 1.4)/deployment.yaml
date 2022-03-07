@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: 109.120.183.68:5000/rest_api:dev          
+          env:
+          - name: PORT
+            value: "6000"
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: api-config
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: api-config
+                key: DB_PORT
+          - name: DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: api-config
+                key: DB_USER
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: api-secret
+                key: DB_PASSWORD
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: api-config
+                key: DB_NAME
+          - name: PYTHONUNBUFFERED
+            value: "1"
+          - name: DEBUG
+            value: "True"
+          ports:
+            - containerPort: 6000
+          resources:
+            requests:
+              memory: 32Mi
+              cpu: 125m
+            limits:
+              memory: 64Mi
+              cpu: 250m
+          command: ["bash"]
+          args: ["run_app.sh"] 
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 6000
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 6000
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 3
+          startupProbe:
+            httpGet:
+              path: /
+              port: 6000
+            failureThreshold: 5
+            periodSeconds: 10
+      imagePullSecrets:
+        - name: regcred

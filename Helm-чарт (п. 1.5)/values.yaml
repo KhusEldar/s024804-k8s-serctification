@@ -1,0 +1,31 @@
+replicas: 2
+
+env:
+  PORT: 6000
+  DB_HOST: "146.185.209.122"
+  DB_PORT: "5432"
+  DB_NAME: "PostgreSQL-4767"
+  DB_USER: "user"
+  DB_PASSWORD: "089nW57fQuEf>22t"
+  PYTHONUNBUFFERED: "1"
+  DEBUG: "True"
+  
+image:
+  dockerRegistry: 109.120.183.68:5000
+  repository: rest_api
+  tag: latest
+  pullSecret: regcred
+
+resources:
+  requests:
+    memory: 32Mi
+    cpu: 125m
+  limits:
+    memory: 64Mi
+    cpu: 250m
+    
+probes:
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 5
