@@ -30,22 +30,23 @@ spec:
           args: ["run_app.sh"] 
           livenessProbe:
             httpGet:
-              path: /
+              path: /users
               port: {{ .Values.env.PORT }}
             initialDelaySeconds: {{ .Values.probes.initialDelaySeconds }}
             periodSeconds: {{ .Values.probes.periodSeconds }}
             timeoutSeconds: {{ .Values.probes.timeoutSeconds }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /users
               port: {{ .Values.env.PORT }}
             initialDelaySeconds: {{ .Values.probes.initialDelaySeconds }}
             periodSeconds: {{ .Values.probes.periodSeconds }}
             timeoutSeconds: {{ .Values.probes.timeoutSeconds }}
           startupProbe:
             httpGet:
-              path: /
+              path: /users
               port: {{ .Values.env.PORT }}
+            initialDelaySeconds: {{ .Values.probes.initialDelaySeconds }}
             failureThreshold: {{ .Values.probes.failureThreshold }}
             periodSeconds: {{ .Values.probes.periodSeconds }}
       imagePullSecrets:

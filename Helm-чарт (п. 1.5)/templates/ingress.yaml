@@ -3,12 +3,12 @@ kind: Ingress
 metadata:
   name: "{{ .Chart.Name }}-ingress"
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
   - http:
       paths:
-      - path: "/app_{{ .Chart.Name }}"
+      - path: "/app_{{ .Chart.Name }}(/|$)(.*)"
         pathType: Prefix
         backend:
           service:
