@@ -18,7 +18,7 @@ spec:
       containers:
         - name: rabbitmq-k8s
           image: rabbitmq:3.7
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - name: amqp
               protocol: TCP

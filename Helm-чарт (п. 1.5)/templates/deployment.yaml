@@ -15,7 +15,8 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.dockerRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-{{- if .Values.env }}          
+{{- if .Values.env }}
+          imagePullPolicy: IfNotPresent          
           env:
           {{- range $key, $val := .Values.env }}
           - name : {{ $key | quote }}

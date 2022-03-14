@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: api
-          image: 109.120.183.68:5000/rest_api:latest          
+          image: 109.120.183.68:5000/rest_api:latest     
+          imagePullPolicy: IfNotPresent     
           env:
           - name: PORT
             value: "6000"
